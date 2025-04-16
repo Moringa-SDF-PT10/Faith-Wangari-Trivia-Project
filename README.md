@@ -1,1 +1,1 @@
-# Faith-Wangari--Trivia-Project
+# Faith-Wangari-Trivia-Project
