@@ -16,8 +16,9 @@ let questions = [];
 let currentIndex = 0;
 let score = 0;
 let timer;
-let timeLeft = 15;
+let timeLeft = 5;
 
+// Button Event Listeners
 startBtn.addEventListener("click", startQuiz);
 restartBtn.addEventListener("click", () => location.reload());
 nextBtn.addEventListener("click", () => changeQuestion(1));
@@ -42,26 +43,50 @@ function startQuiz() {
 function displayQuestion() {
   resetTimer();
   const current = questions[currentIndex];
-  const progress = ((currentIndex) / questions.length) * 100;
+  const progress = (currentIndex / questions.length) * 100;
   progressBar.style.width = `${progress}%`;
   questionText.innerHTML = `Q${currentIndex + 1}: ${current.question}`;
   answersContainer.innerHTML = "";
+
   current.answers.forEach(answer => {
     const btn = document.createElement("button");
     btn.innerHTML = answer;
+    btn.classList.add("answer-btn");
+
     btn.addEventListener("click", () => {
+      Array.from(answersContainer.children).forEach(button => {
+        button.disabled = true;
+
+        if (button.innerHTML === current.correct) {
+          button.classList.add("correct");
+        } else if (button.innerHTML === answer && answer !== current.correct) {
+          button.classList.add("wrong");
+        }
+      });
+
       if (answer === current.correct) {
         score++;
         scorePoints.textContent = score;
       }
-      changeQuestion(1);
+
+      setTimeout(() => {
+        changeQuestion(1);
+      }, 1500);
     });
+
     answersContainer.appendChild(btn);
   });
 }
 
 function changeQuestion(step) {
   currentIndex += step;
+
+
+  if (currentIndex < 0) {
+    currentIndex = 0;
+    return;
+  }
+
   if (currentIndex >= questions.length) {
     showScore();
   } else {
@@ -73,6 +98,7 @@ function showScore() {
   quizContainer.classList.add("hidden");
   scoreScreen.classList.remove("hidden");
   scoreDisplay.textContent = score;
+  clearInterval(timer);
 }
 
 function startTimer() {
@@ -96,3 +122,4 @@ function resetTimer() {
 function shuffle(array) {
   return array.sort(() => Math.random() - 0.5);
 }
+
