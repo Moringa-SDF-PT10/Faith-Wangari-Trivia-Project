@@ -18,7 +18,7 @@ let questions = [];
 let currentIndex = 0;
 let score = 0;
 let timer;
-let timeLeft = 5;
+let timeLeft = 20;
 let timeoutOccurred = false;
 
 startBtn.addEventListener("click", startQuiz);
@@ -109,7 +109,7 @@ function showScore() {
 }
 
 function startTimer() {
-  timeLeft = 15;
+  timeLeft = 20;
   timerDisplay.textContent = timeLeft;
   timer = setInterval(() => {
     timeLeft--;
