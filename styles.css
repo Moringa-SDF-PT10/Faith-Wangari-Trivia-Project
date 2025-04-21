@@ -165,3 +165,8 @@ image src {
   background-color: #e74c3c;
 }
 
+p {
+  font-size: 1.2rem;
+  margin: 10px 0;
+}
+

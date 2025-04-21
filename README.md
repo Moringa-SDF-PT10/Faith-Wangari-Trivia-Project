@@ -20,7 +20,7 @@ Welcome to my trivia game — a colorful and engaging way to test your general k
 7. Colorful, user-friendly UI
 
 ## 📸 Screenshot Preview
-
+![alt text](image-1.png)
 
 ## Tech Stack
 
