@@ -1,0 +1,22 @@
+{
+    "response_code": 0,
+    "results": [
+      {
+        "category": "General Knowledge",
+        "type": "multiple",
+        "difficulty": "medium",
+        "question": "What is the capital of Australia?",
+        "correct_answer": "Canberra",
+        "incorrect_answers": ["Sydney", "Melbourne", "Brisbane"]
+      },
+      {
+        "category": "General Knowledge",
+        "type": "multiple",
+        "difficulty": "medium",
+        "question": "In what year did the website &quot;Facebook&quot; launch?",
+        "correct_answer": "2004",
+        "incorrect_answers": ["2005", "2003", "2006"]
+      }
+    ]
+  }
+  

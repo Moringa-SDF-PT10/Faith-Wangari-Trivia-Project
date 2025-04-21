@@ -1,48 +1,112 @@
-body {
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  text-align: center;
-  background: linear-gradient(to right, #f6d365, #fda085);
-  color: #333;
+* {
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background: url('assets/header-icon\ .jpg') no-repeat center center fixed;
+  background-size: cover;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+header img {
+  width: 40px;
+  margin-right: 15px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #ffd700;
 }
 
 button {
-  padding: 15px 30px;
-  font-size: 18px;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  background: linear-gradient(to right, #00c9ff, #92fe9d);
-  color: #000;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease-in-out;
+  padding: 12px 25px;
   margin: 10px;
+  font-size: 1.2rem;
+  background: #ff7f50;
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
 button:hover {
-  transform: scale(1.05);
+  background: #ffa07a;
 }
 
-#quiz-page, #result-page {
-  margin-top: 30px;
-  background-color: #ffffffcc;
-  padding: 20px;
+#quiz-container, #score-screen {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 30px;
   border-radius: 15px;
-  display: inline-block;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-#options-container button {
-  display: block;
-  margin: 10px auto;
-  width: 60%;
-  background: linear-gradient(to right, #fbc2eb, #a6c1ee);
-}
-
-#answers-review {
-  text-align: left;
-  margin: 20px auto;
   max-width: 600px;
+  margin: 0 auto;
+}
+
+#answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.timer {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.hidden {
+  display: none;
+}
+
+image src {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.logo {
+  width: 180px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease-in-out;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #ecf0f1;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #3498db;
+  width: 0%;
+  transition: width 0.3s;
+}
+
+.score-count {
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: bold;
 }

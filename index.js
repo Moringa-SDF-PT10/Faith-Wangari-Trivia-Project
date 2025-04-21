@@ -1,84 +1,98 @@
 const startBtn = document.getElementById("start-btn");
-const quizPage = document.getElementById("quiz-page");
-const startPage = document.getElementById("start-page");
-const resultPage = document.getElementById("result-page");
-const questionElem = document.getElementById("question");
-const optionsContainer = document.getElementById("options-container");
-const scoreElem = document.getElementById("score");
-const finalScoreElem = document.getElementById("final-score");
-const answersReview = document.getElementById("answers-review");
 const restartBtn = document.getElementById("restart-btn");
+const quizContainer = document.getElementById("quiz-container");
+const startScreen = document.getElementById("start-screen");
+const scoreScreen = document.getElementById("score-screen");
+const questionText = document.getElementById("question-text");
+const answersContainer = document.getElementById("answers");
+const scoreDisplay = document.getElementById("score");
+const scorePoints = document.getElementById("score-points");
+const timerDisplay = document.getElementById("timer");
+const nextBtn = document.getElementById("next-btn");
+const prevBtn = document.getElementById("prev-btn");
+const progressBar = document.getElementById('progressBar');
 
 let questions = [];
-let currentQuestionIndex = 0;
+let currentIndex = 0;
 let score = 0;
-let incorrectAnswers = [];
+let timer;
+let timeLeft = 15;
 
 startBtn.addEventListener("click", startQuiz);
 restartBtn.addEventListener("click", () => location.reload());
+nextBtn.addEventListener("click", () => changeQuestion(1));
+prevBtn.addEventListener("click", () => changeQuestion(-1));
 
 function startQuiz() {
+  startScreen.classList.add("hidden");
+  quizContainer.classList.remove("hidden");
   fetch("https://opentdb.com/api.php?amount=10&category=9&difficulty=medium&type=multiple")
-    .then((res) => res.json())
-    .then((data) => {
-      questions = data.results;
-      startPage.style.display = "none";
-      quizPage.style.display = "block";
-      showQuestion();
+    .then(res => res.json())
+    .then(data => {
+      questions = data.results.map(q => ({
+        question: q.question,
+        correct: q.correct_answer,
+        answers: shuffle([...q.incorrect_answers, q.correct_answer])
+      }));
+      displayQuestion();
+      startTimer();
     });
 }
 
-function showQuestion() {
-  const currentQuestion = questions[currentQuestionIndex];
-  questionElem.innerHTML = decodeHTML(currentQuestion.question);
-  const answers = [...currentQuestion.incorrect_answers];
-  const correct = currentQuestion.correct_answer;
-  answers.splice(Math.floor(Math.random() * 4), 0, correct);
-
-  optionsContainer.innerHTML = "";
-  answers.forEach((answer) => {
+function displayQuestion() {
+  resetTimer();
+  const current = questions[currentIndex];
+  const progress = ((currentIndex) / questions.length) * 100;
+  progressBar.style.width = `${progress}%`;
+  questionText.innerHTML = `Q${currentIndex + 1}: ${current.question}`;
+  answersContainer.innerHTML = "";
+  current.answers.forEach(answer => {
     const btn = document.createElement("button");
-    btn.textContent = decodeHTML(answer);
-    btn.onclick = () => handleAnswer(answer, correct);
-    optionsContainer.appendChild(btn);
-  });
-}
-
-function handleAnswer(selected, correct) {
-  if (selected === correct) {
-    score++;
-  } else {
-    incorrectAnswers.push({
-      question: questions[currentQuestionIndex].question,
-      correctAnswer: correct,
+    btn.innerHTML = answer;
+    btn.addEventListener("click", () => {
+      if (answer === current.correct) {
+        score++;
+        scorePoints.textContent = score;
+      }
+      changeQuestion(1);
     });
-  }
-
-  scoreElem.textContent = `Score: ${score}`;
-  currentQuestionIndex++;
-
-  if (currentQuestionIndex < questions.length) {
-    showQuestion();
-  } else {
-    showResults();
-  }
-}
-
-function showResults() {
-  quizPage.style.display = "none";
-  resultPage.style.display = "block";
-  finalScoreElem.textContent = `Your final score is ${score}/${questions.length}`;
-  answersReview.innerHTML = "<h3>Correct Answers for Questions You Missed:</h3>";
-
-  incorrectAnswers.forEach((item) => {
-    const p = document.createElement("p");
-    p.innerHTML = `<strong>${decodeHTML(item.question)}</strong><br>✅ ${decodeHTML(item.correctAnswer)}`;
-    answersReview.appendChild(p);
+    answersContainer.appendChild(btn);
   });
 }
 
-function decodeHTML(html) {
-  const txt = document.createElement("textarea");
-  txt.innerHTML = html;
-  return txt.value;
+function changeQuestion(step) {
+  currentIndex += step;
+  if (currentIndex >= questions.length) {
+    showScore();
+  } else {
+    displayQuestion();
+  }
+}
+
+function showScore() {
+  quizContainer.classList.add("hidden");
+  scoreScreen.classList.remove("hidden");
+  scoreDisplay.textContent = score;
+}
+
+function startTimer() {
+  timeLeft = 15;
+  timerDisplay.textContent = timeLeft;
+  timer = setInterval(() => {
+    timeLeft--;
+    timerDisplay.textContent = timeLeft;
+    if (timeLeft === 0) {
+      clearInterval(timer);
+      changeQuestion(1);
+    }
+  }, 1000);
+}
+
+function resetTimer() {
+  clearInterval(timer);
+  startTimer();
+}
+
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
