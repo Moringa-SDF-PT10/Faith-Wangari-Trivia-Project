@@ -102,7 +102,7 @@ function showScore() {
 }
 
 function startTimer() {
-  timeLeft = 15;
+  timeLeft = 30;
   timerDisplay.textContent = timeLeft;
   timer = setInterval(() => {
     timeLeft--;
